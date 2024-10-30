@@ -1,0 +1,12 @@
+# Python
+*.egg-info
+__pycache__
+
+# Coverage
+.coverage
+
+# venv
+.venv
+
+# build folder
+build

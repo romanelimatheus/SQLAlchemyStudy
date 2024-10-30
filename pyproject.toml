@@ -1,0 +1,49 @@
+[project]
+name = "PythonTemplate"
+version = "0.1.0"
+authors = [
+    {name = "YSMART", email = "contato@ysmart.com.br"},
+]
+description = "Python Template by YSMART"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies=[
+]
+
+[project.optional-dependencies]
+dev = [
+  "ruff==0.7.1",
+  "mypy==1.13.0",
+  "pytest==8.3.3",
+  "pytest-cov==6.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/YSMART-Projects/PythonTemplate"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D203", "D213", "FA102"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["S101", "D", "PLR2004"]
+
+[tool.mypy]
+exclude = ["build", "venv"]
+strict = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=python_template --cov-report term --cov-report html"
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+# fail_under = 80
+sort = "cover"
