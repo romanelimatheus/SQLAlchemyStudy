@@ -1,3 +1,4 @@
+project := python_template
 venv := .venv
 bin := $(venv)/bin
 
@@ -43,4 +44,4 @@ quality_assessment: qa
 .PHONY: run r
 r: run
 run:
-	$(bin)/python -m python_template
+	$(bin)/python -m $(project)
