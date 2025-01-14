@@ -1,4 +1,4 @@
-# PythonTemplate
+# TemplatePython
 
 Python Template by YSMART.
 

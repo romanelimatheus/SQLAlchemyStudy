@@ -1,4 +1,4 @@
-from python_template.app import main
+from template_python.app import main
 
 
 class TestApp:

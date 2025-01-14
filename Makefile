@@ -1,10 +1,11 @@
-project := python_template
+project := template_python
 venv := .venv
 bin := $(venv)/bin
 
 
 # Install dependencies
-.PHONY: install
+.PHONY: install i
+i: install
 install:
 	uv venv $(venv)
 	uv pip install -e .[dev]
