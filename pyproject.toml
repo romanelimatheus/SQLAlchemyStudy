@@ -1,13 +1,14 @@
 [project]
-name = "TemplatePython"
-version = "0.1.2"
+name = "SQLAlchemyStudy"
+version = "0.0.1"
 authors = [
-    {name = "YSMART", email = "contato@ysmart.com.br"},
+    {name = "Matheus Lima Romaneli", email = "mlima1324@gmail.com"},
 ]
-description = "Python Template by YSMART"
+description = "SQLAlchemy exploration of usage"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies=[
+  "sqlalchemy"
 ]
 
 [project.optional-dependencies]
@@ -19,7 +20,7 @@ dev = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/YSMART-Projects/TemplatePython"
+"Homepage" = "https://github.com/YSMART-Projects/SQLAlchemyStudy"
 
 [build-system]
 requires = ["setuptools"]

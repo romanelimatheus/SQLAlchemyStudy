@@ -10,3 +10,6 @@ __pycache__
 
 # build folder
 build
+
+# project
+database.db

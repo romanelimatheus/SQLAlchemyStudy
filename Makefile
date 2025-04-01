@@ -1,4 +1,4 @@
-project := template_python
+project := src
 venv := .venv
 bin := $(venv)/bin
 
