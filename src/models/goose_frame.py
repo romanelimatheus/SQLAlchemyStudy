@@ -18,6 +18,8 @@ class GooseFrame(Base):
 
     goose_id: Mapped[str] = mapped_column(String)
     gocb_ref: Mapped[str] = mapped_column(String)
-    ied_id: Mapped[UUID] = mapped_column(ForeignKey("ied.id"))
+    ied_src_id: Mapped[UUID] = mapped_column(ForeignKey("ied.id"))
+    ied_dst_id: Mapped[UUID] = mapped_column(ForeignKey("ied.id"))
 
-    ied: Mapped["IED| None"] = relationship(back_populates="goose_frames")
+    ied_src: Mapped["IED"] = relationship(foreign_keys=[ied_src_id], back_populates="goose_frames_publications")
+    ied_dst: Mapped["IED"] = relationship(foreign_keys=[ied_dst_id], back_populates="goose_frames_subscriptions")

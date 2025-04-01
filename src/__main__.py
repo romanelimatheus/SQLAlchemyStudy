@@ -14,19 +14,27 @@ def main() -> None:
     Base.metadata.create_all(engine)
 
     with Session(engine) as session:
-        ied = IED(
+        ied_src = IED(
             ip="127.0.0.1",
-            name="test",
+            name="Origem",
+            vendor="test",
+        )
+        ied_dst = IED(
+            ip="127.0.0.1",
+            name="Destino",
             vendor="test",
         )
         goose_frame = GooseFrame(
             goose_id="test",
             gocb_ref="test",
-            ied_id=ied.id,
-            ied=ied,
+            ied_src_id=ied_src.id,
+            ied_dst_id=ied_dst.id,
+            ied_src=ied_src,
+            ied_dst=ied_dst,
         )
 
-        session.add(ied)
+        session.add(ied_src)
+        session.add(ied_dst)
         session.add(goose_frame)
         session.commit()
 
