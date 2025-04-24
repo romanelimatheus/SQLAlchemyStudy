@@ -2,8 +2,8 @@
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src import Base
 from src.models import GooseFrame
+from src.models.base import Base
 
 
 class IED(Base):
