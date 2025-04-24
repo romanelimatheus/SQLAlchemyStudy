@@ -4,6 +4,7 @@ __pycache__
 
 # Coverage
 .coverage
+htmlcov/*
 
 # venv
 .venv
@@ -12,5 +13,6 @@ __pycache__
 build
 
 # project
+.vscode/*
 database.db
 test.db
