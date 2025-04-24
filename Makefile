@@ -35,11 +35,11 @@ m: mypy
 mypy:
 	$(bin)/mypy .
 
-# Run all quality assessment checks
-.PHONY: quality_assessment qa q
+# Run all quality assurance checks
+.PHONY: quality_assurance qa q
 qa: ruff pytest mypy
 q: qa
-quality_assessment: qa
+quality_assurance: qa
 
 # Run project
 .PHONY: run r
