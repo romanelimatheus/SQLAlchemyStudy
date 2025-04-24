@@ -29,7 +29,7 @@ class TestAlertHandler:
         alert_handler = AlertHandler(engine=engine_mock)
         integrity_alert = GooseIntegrityAlert.default()
         alert_handler.add(integrity_alert)
-        thread = Thread(target=alert_handler.process)
+        thread = Thread(target=alert_handler.process, daemon=True)
         thread.start()
 
         sleep(0.1)
