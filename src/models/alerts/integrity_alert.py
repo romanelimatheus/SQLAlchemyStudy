@@ -23,3 +23,13 @@ class GooseIntegrityAlert(Base):
     field: Mapped[FieldsEnum] = mapped_column(Enum(FieldsEnum))
     error: Mapped[bool] = mapped_column(Boolean)
     value: Mapped[str] = mapped_column(String)
+
+    @classmethod
+    def default(cls: type["GooseIntegrityAlert"]) -> "GooseIntegrityAlert":
+        """Class instance used for tests."""
+        return cls(
+            goose_frame_id=UUID("f067fc5c-2497-4fea-a177-d994214c69bb"),
+            field = FieldsEnum.GOOSE_ID,
+            error = True,
+            value = "test",
+        )
