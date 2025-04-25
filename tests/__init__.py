@@ -1,10 +1,9 @@
-from sqlalchemy import Engine
+from sqlalchemy import Engine, create_engine
+
+from src.models.base import Base
 
 
 def engine() -> Engine:
-    from sqlalchemy import create_engine
-
-    from src.models.base import Base
     engine = create_engine("sqlite:///test.db")
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)

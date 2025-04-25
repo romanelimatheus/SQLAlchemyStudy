@@ -3,7 +3,7 @@
 from sqlalchemy import Select, select
 from sqlalchemy.orm import aliased
 
-from models.alerts.integrity_alert import GooseIntegrityAlert
+from src.models.alerts.integrity_alert import GooseIntegrityAlert
 
 
 class IntegrityAlertContext:
@@ -15,8 +15,10 @@ class IntegrityAlertContext:
         invalid_alerts = aliased(GooseIntegrityAlert, name="fixed")
         return select(
             valid_alerts,
-        ).join(
+        ).distinct(valid_alerts.goose_frame_id).join(
             invalid_alerts, valid_alerts.goose_frame_id == invalid_alerts.goose_frame_id, isouter=True,
         ).where(
             valid_alerts.error.is_(True),
+        ).order_by(
+            valid_alerts.created_at,
         )

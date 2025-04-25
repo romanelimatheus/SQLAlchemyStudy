@@ -1,5 +1,6 @@
 from threading import Thread
 from time import sleep
+from uuid import uuid4
 
 import pytest
 from sqlalchemy import Engine
@@ -9,7 +10,7 @@ from src.services.alert_handler import AlertHandler
 from tests import engine
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session", autouse=True)
 def engine_mock() -> Engine:
     return engine()
 

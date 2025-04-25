@@ -2,7 +2,7 @@
 import enum
 from uuid import UUID
 
-from sqlalchemy import Boolean, Enum, ForeignKey, String
+from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.models.base import Base
@@ -23,6 +23,7 @@ class GooseIntegrityAlert(Base):
     field: Mapped[FieldsEnum] = mapped_column(Enum(FieldsEnum))
     error: Mapped[bool] = mapped_column(Boolean)
     value: Mapped[str] = mapped_column(String)
+    created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
 
     @classmethod
     def default(cls: type["GooseIntegrityAlert"]) -> "GooseIntegrityAlert":
