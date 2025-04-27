@@ -26,11 +26,15 @@ class GooseIntegrityAlert(Base):
     created_at: Mapped[DateTime] = mapped_column(DateTime, default=func.now())
 
     @classmethod
-    def default(cls: type["GooseIntegrityAlert"]) -> "GooseIntegrityAlert":
+    def build(cls: type["GooseIntegrityAlert"],
+        goose_frame_id: UUID|None=None, field: FieldsEnum=FieldsEnum.GOOSE_ID, value: str="Test", *, error: bool=True,
+    ) -> "GooseIntegrityAlert":
         """Class instance used for tests."""
+        if goose_frame_id is None:
+            goose_frame_id = UUID("00000000-0000-0000-0000-000000000000")
         return cls(
-            goose_frame_id=UUID("f067fc5c-2497-4fea-a177-d994214c69bb"),
-            field = FieldsEnum.GOOSE_ID,
-            error = True,
-            value = "test",
+            goose_frame_id=goose_frame_id,
+            field = field,
+            error = error,
+            value = value,
         )

@@ -16,6 +16,10 @@ class GooseMessageAlert(Base):
     goose_frame_id: Mapped[UUID] = mapped_column(ForeignKey("goose_frame.id"))
 
     @classmethod
-    def default(cls: type["GooseMessageAlert"]) -> "GooseMessageAlert":
+    def build(cls: type["GooseMessageAlert"],
+        goose_frame_id: UUID|None=None, *, abscense: bool=True,
+    ) -> "GooseMessageAlert":
         """Class instance used for tests."""
-        return GooseMessageAlert(goose_frame_id=UUID("f067fc5c-2497-4fea-a177-d994214c69bb"),abscense=False)
+        if goose_frame_id is None:
+            goose_frame_id = UUID("00000000-0000-0000-0000-000000000000")
+        return cls(goose_frame_id=goose_frame_id, abscense=abscense)
