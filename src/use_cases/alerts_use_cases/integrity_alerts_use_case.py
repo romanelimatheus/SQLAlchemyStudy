@@ -1,24 +1,33 @@
 """Integrity alerts use case."""
 
-from sqlalchemy import Engine, select
-from sqlalchemy.orm import Session
+from collections.abc import Sequence
 
-from src.context.goose_frame_context import GooseFrameContext
+from sqlalchemy import Engine, Row, select
+from sqlalchemy.orm import Session, aliased
+
 from src.context.integrity_alert_context import IntegrityAlertContext
+from src.models.alerts.integrity_alert import GooseIntegrityAlert
+from src.models.goose_frame import GooseFrame
 
+type IntegrityAlertResponse = Sequence[Row[tuple[GooseFrame, GooseIntegrityAlert]]]
 
 class IntegrityAlertsUseCase:
     """Integrity alerts use case."""
 
-    def exec(self: "IntegrityAlertsUseCase", engine: Engine) -> None:
-        goose_frame_context = GooseFrameContext()
+    def exec(self: "IntegrityAlertsUseCase", engine: Engine) -> IntegrityAlertResponse:
+        """Get integrity alerts for each frame."""
         integrity_alert_context = IntegrityAlertContext()
 
-        goose_frames = goose_frame_context.get_goose_frames().subquery()
         integrity_alerts = integrity_alert_context.get_valid_integrity_alerts().subquery()
+        integrity_alert = aliased(GooseIntegrityAlert, integrity_alerts)
         result = select(
-            goose_frames,
+            GooseFrame,
+            integrity_alert,
+        ).join(
             integrity_alerts,
+            GooseFrame.id == integrity_alert.goose_frame_id,
+        ).order_by(
+            GooseFrame.id,
         )
         with Session(engine) as session:
             return session.execute(result).all()
