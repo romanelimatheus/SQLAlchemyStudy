@@ -9,7 +9,7 @@ from src.services.alert_handler import AlertHandler
 from tests import engine
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="module", autouse=True)
 def engine_mock() -> Engine:
     return engine()
 
