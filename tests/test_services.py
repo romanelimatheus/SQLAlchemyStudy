@@ -1,6 +1,5 @@
 from threading import Thread
 from time import sleep
-from uuid import uuid4
 
 import pytest
 from sqlalchemy import Engine
@@ -18,7 +17,7 @@ class TestAlertHandler:
 
     def test_add(self, engine_mock: Engine) -> None:
         alert_handler = AlertHandler(engine=engine_mock)
-        integrity_alert = GooseIntegrityAlert.default()
+        integrity_alert = GooseIntegrityAlert.build()
         alert_handler.add(integrity_alert)
         assert alert_handler.queue_event.is_set()
         assert alert_handler.queue[-1] == integrity_alert
@@ -28,7 +27,7 @@ class TestAlertHandler:
 
     def test_process(self: "TestAlertHandler", engine_mock: Engine) -> None:
         alert_handler = AlertHandler(engine=engine_mock)
-        integrity_alert = GooseIntegrityAlert.default()
+        integrity_alert = GooseIntegrityAlert.build()
         alert_handler.add(integrity_alert)
         thread = Thread(target=alert_handler.process, daemon=True)
         thread.start()

@@ -1,11 +1,11 @@
-from uuid import uuid4
-
 import pytest
 from sqlalchemy import Engine
 from sqlalchemy.orm import Session
 
 from src.controllers.alerts_controller import AlertController
 from src.models.alerts.integrity_alert import GooseIntegrityAlert
+from src.models.goose_frame import GooseFrame
+from src.models.ied import IED
 from tests import engine
 
 
@@ -17,11 +17,17 @@ class TestAlertsController:
 
     def generate_integrity_alert(self: "TestAlertsController", engine: Engine, *, with_fixed: bool = False) -> None:
         with Session(engine) as session:
-            session.add(GooseIntegrityAlert.default())
+            ied_src = IED.build(name="src")
+            ied_dst = IED.build(name="dst")
+            goose_frame = GooseFrame.build(ied_src=ied_src, ied_dst=ied_dst)
+            session.add(ied_src)
+            session.add(ied_dst)
+            session.add(goose_frame)
+            session.add(GooseIntegrityAlert.build(goose_frame_id=goose_frame.id))
             if with_fixed:
-                integrity_alert_fix = GooseIntegrityAlert.default()
-                integrity_alert_fix.error = False
-                integrity_alert_fix.id = uuid4()
+                integrity_alert_fix = GooseIntegrityAlert.build(
+                    goose_frame_id=goose_frame.id, value="Test", error=False,
+                )
                 session.add(integrity_alert_fix)
             session.commit()
 

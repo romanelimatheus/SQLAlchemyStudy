@@ -7,18 +7,18 @@ from src.models.alerts.message_alert import GooseMessageAlert
 
 class TestAlertLobby:
     def test_from_alert(self: "TestAlertLobby") -> None:
-        alert = GooseIntegrityAlert.default()
+        alert = GooseIntegrityAlert.build()
         alert_lobby = AlertsLobby.from_alert(alert)
         assert alert_lobby.alert_reference == AlertsEnum.INTEGRITY
         assert alert_lobby.alert_id == alert.id
 
 class TestAlertsEnum:
     def test_from_instance_integrity(self: "TestAlertsEnum") -> None:
-        alert = AlertsEnum.from_instance(GooseIntegrityAlert.default())
+        alert = AlertsEnum.from_instance(GooseIntegrityAlert.build())
         assert alert == AlertsEnum.INTEGRITY
 
     def test_from_instance_message(self: "TestAlertsEnum") -> None:
-        alert = AlertsEnum.from_instance(GooseMessageAlert.default())
+        alert = AlertsEnum.from_instance(GooseMessageAlert.build())
         assert alert == AlertsEnum.MESSAGE
 
     def test_from_unknown(self: "TestAlertsEnum") -> None:
