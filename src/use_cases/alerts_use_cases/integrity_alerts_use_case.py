@@ -1,15 +1,14 @@
 """Integrity alerts use case."""
 
-from collections.abc import Sequence
-
-from sqlalchemy import Engine, Row, select
-from sqlalchemy.orm import Session, aliased
+from sqlalchemy import Engine, select
+from sqlalchemy.engine import TupleResult
+from sqlalchemy.orm import aliased
 
 from src.context.integrity_alert_context import IntegrityAlertContext
 from src.models.alerts.integrity_alert import GooseIntegrityAlert
 from src.models.goose_frame import GooseFrame
 
-type IntegrityAlertResponse = Sequence[Row[tuple[GooseFrame, GooseIntegrityAlert]]]
+type IntegrityAlertResponse = TupleResult[tuple[GooseFrame, GooseIntegrityAlert]]
 
 class IntegrityAlertsUseCase:
     """Integrity alerts use case."""
@@ -20,7 +19,7 @@ class IntegrityAlertsUseCase:
 
         integrity_alerts = integrity_alert_context.get_valid_integrity_alerts().subquery()
         integrity_alert = aliased(GooseIntegrityAlert, integrity_alerts)
-        result = select(
+        query = select(
             GooseFrame,
             integrity_alert,
         ).join(
@@ -29,5 +28,5 @@ class IntegrityAlertsUseCase:
         ).order_by(
             GooseFrame.id,
         )
-        with Session(engine) as session:
-            return session.execute(result).all()
+        with engine.connect() as connection:
+            return connection.execute(query).tuples()
