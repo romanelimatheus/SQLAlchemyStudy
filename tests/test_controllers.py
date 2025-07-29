@@ -15,19 +15,19 @@ class TestAlertsController:
     def test_frame_with_integrity_alert(self, engine_mock: Engine) -> None:
         generate_integrity_alert(engine=engine_mock)
         frame_alerts = AlertController(engine=engine_mock).get_frames_alerts()
-        for frame_alert in frame_alerts:
-            print(frame_alert)
-        # assert False
+        if len(frame_alerts) != 1:
+            msg = "Should return no frames, but returned: %s"
+            raise AssertionError(msg % len(frame_alerts))
 
     def test_frame_with_fixed_integrity_alert(self, engine_mock: Engine) -> None:
         generate_integrity_alert(engine=engine_mock, with_fixed=True)
         frame_alerts = AlertController(engine=engine_mock).get_frames_alerts()
-        for frame_alert in frame_alerts:
-            print(frame_alert)
-        # assert False
+        if len(frame_alerts) != 1:
+            msg = "Should return no frames, but returned: %s"
+            raise AssertionError(msg % len(frame_alerts))
 
     def test_frame_with_no_integrity_alert(self, engine_mock: Engine) -> None:
         frame_alerts = AlertController(engine=engine_mock).get_frames_alerts()
-        for frame_alert in frame_alerts:
-            print(frame_alert)
-        assert False
+        if len(frame_alerts) != 0:
+            msg = "Should return no frames, but returned: %s"
+            raise AssertionError(msg % len(frame_alerts))
