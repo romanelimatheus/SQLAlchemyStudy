@@ -1,3 +1,4 @@
+import pytest
 from sqlalchemy import Engine, StaticPool, create_engine
 
 from src.models.base import Base
