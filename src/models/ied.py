@@ -15,9 +15,9 @@ class IED(Base):
     name : Mapped[str] = mapped_column(String)
     vendor : Mapped[str] = mapped_column(String)
     goose_frames_publications : Mapped[list["GooseFrame"]] = relationship(GooseFrame,
-        foreign_keys=[GooseFrame.ied_src_id], back_populates="ied_src", default_factory=list)
+        foreign_keys=[GooseFrame.ied_src_id], back_populates="ied_src", default_factory=list, lazy="noload")
     goose_frames_subscriptions : Mapped[list["GooseFrame"]] = relationship(GooseFrame,
-        foreign_keys=[GooseFrame.ied_dst_id], back_populates="ied_dst", default_factory=list)
+        foreign_keys=[GooseFrame.ied_dst_id], back_populates="ied_dst", default_factory=list, lazy="noload")
 
     @classmethod
     def build(cls: type["IED"], ip: str="127.0.0.1", name: str="IED", vendor: str="Vendor") -> "IED":

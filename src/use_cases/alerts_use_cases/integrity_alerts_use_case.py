@@ -3,7 +3,7 @@
 from collections.abc import Sequence
 
 from sqlalchemy import Engine, Row, select
-from sqlalchemy.orm import aliased
+from sqlalchemy.orm import Session, aliased
 
 from src.context.integrity_alert_context import IntegrityAlertContext
 from src.models.alerts.integrity_alert import GooseIntegrityAlert
@@ -18,7 +18,7 @@ class IntegrityAlertsUseCase:
         integrity_alert_context = IntegrityAlertContext()
 
         integrity_alerts = integrity_alert_context.get_last_integrity_alerts().subquery()
-        integrity_alert = aliased(GooseIntegrityAlert, integrity_alerts)
+        integrity_alert = aliased(GooseIntegrityAlert, integrity_alerts, name="integrity_alert")
         query = select(
             GooseFrame,
             integrity_alert,
@@ -28,5 +28,5 @@ class IntegrityAlertsUseCase:
         ).order_by(
             GooseFrame.id,
         )
-        with engine.connect() as connection:
-            return connection.execute(query).fetchall()
+        with Session(engine) as session:
+            return session.execute(query).all()

@@ -21,8 +21,10 @@ class GooseFrame(Base):
     ied_src_id: Mapped[UUID] = mapped_column(ForeignKey("ied.id"))
     ied_dst_id: Mapped[UUID] = mapped_column(ForeignKey("ied.id"))
 
-    ied_src: Mapped["IED"] = relationship(foreign_keys=[ied_src_id], back_populates="goose_frames_publications")
-    ied_dst: Mapped["IED"] = relationship(foreign_keys=[ied_dst_id], back_populates="goose_frames_subscriptions")
+    ied_src: Mapped["IED"] = relationship(
+        foreign_keys=[ied_src_id], back_populates="goose_frames_publications", lazy="joined")
+    ied_dst: Mapped["IED"] = relationship(
+        foreign_keys=[ied_dst_id], back_populates="goose_frames_subscriptions", lazy="joined")
 
     @classmethod
     def build(cls: type["GooseFrame"],
